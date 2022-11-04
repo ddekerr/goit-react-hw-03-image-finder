@@ -26,11 +26,15 @@ export class ImageGallery extends Component {
     const { searchQuery } = this.props;
     const { page } = this.state;
 
+    if(prevProps.searchQuery !== searchQuery) {
+      this.setState({ images: [], page: 1 });
+    }
+
     if (
       prevProps.searchQuery !== searchQuery ||
       prevState.page !== this.state.page
     ) {
-      this.setState({ status: 'pending', images: [], page: 1 });
+      this.setState({ status: 'pending' });
 
       const images = await galleryApi.fetchImagesByQuery(searchQuery, page);
 

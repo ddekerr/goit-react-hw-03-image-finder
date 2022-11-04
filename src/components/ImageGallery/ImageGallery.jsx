@@ -98,49 +98,5 @@ export class ImageGallery extends Component {
         {status === 'pending' && <Puff color="#3f51b5" />}
       </>
     );
-
-    // if (status === 'idle') {
-    //   return <p>No match result yet</p>;
-    // }
-
-    // if (status === 'pending') {
-    //   return <Puff color="#3f51b5" />;
-    // }
-
-    // if (status === 'rejected') {
-    //   return (
-    //     <>
-    //       <p>{this.state.error}</p>
-    //       <ToastContainer
-    //         theme="light"
-    //         pauseOnHover={false}
-    //         autoClose={2000}
-    //         draggable={false}
-    //       />
-    //     </>
-    //   );
-    // }
-
-    // if (status === 'resolved') {
-    //   return (
-    //     <>
-    //       <ImageGalleryContainer>
-    //         {images.map(image => (
-    //           <ImageGalleryItem
-    //             key={image.id}
-    //             image={{
-    //               webformatURL: image.webformatURL,
-    //               tags: image.tags,
-    //               largeImageURL: image.largeImageURL,
-    //             }}
-    //           ></ImageGalleryItem>
-    //         ))}
-    //       </ImageGalleryContainer>
-    //       {totalImages !== images.length && (
-    //         <LoadMoreButton onClick={this.loadMore} />
-    //       )}
-    //     </>
-    //   );
-    // }
   }
 }

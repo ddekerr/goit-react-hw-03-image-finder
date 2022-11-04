@@ -26,7 +26,7 @@ export class ImageGallery extends Component {
     const { searchQuery } = this.props;
     const { page } = this.state;
 
-    if(prevProps.searchQuery !== searchQuery) {
+    if (prevProps.searchQuery !== searchQuery) {
       this.setState({ images: [], page: 1 });
     }
 
@@ -43,6 +43,7 @@ export class ImageGallery extends Component {
           images: this.state.images.concat(images.hits),
           status: 'resolved',
           totalImages: images.total,
+          error: null,
         });
       } else {
         this.setState({
@@ -61,48 +62,85 @@ export class ImageGallery extends Component {
   render() {
     const { images, status, totalImages } = this.state;
 
-    if (status === 'idle') {
-      return <p>No match result yet</p>;
-    }
+    return (
+      <>
+        {status === 'idle' && <p>No match result yet</p>}
 
-    if (status === 'pending') {
-      return <Puff color="#3f51b5" />;
-    }
+        {status === 'rejected' && (
+          <>
+            <p>{this.state.error}</p>
+            <ToastContainer
+              theme="light"
+              pauseOnHover={false}
+              autoClose={2000}
+              draggable={false}
+            />
+          </>
+        )}
 
-    if (status === 'rejected') {
-      return (
-        <>
-          <p>{this.state.error}</p>
-          <ToastContainer
-            theme="light"
-            pauseOnHover={false}
-            autoClose={2000}
-            draggable={false}
-          />
-        </>
-      );
-    }
+        <ImageGalleryContainer>
+          {images.map(image => (
+            <ImageGalleryItem
+              key={image.id}
+              image={{
+                webformatURL: image.webformatURL,
+                tags: image.tags,
+                largeImageURL: image.largeImageURL,
+              }}
+            ></ImageGalleryItem>
+          ))}
+        </ImageGalleryContainer>
 
-    if (status === 'resolved') {
-      return (
-        <>
-          <ImageGalleryContainer>
-            {images.map(image => (
-              <ImageGalleryItem
-                key={image.id}
-                image={{
-                  webformatURL: image.webformatURL,
-                  tags: image.tags,
-                  largeImageURL: image.largeImageURL,
-                }}
-              ></ImageGalleryItem>
-            ))}
-          </ImageGalleryContainer>
-          {totalImages !== images.length && (
-            <LoadMoreButton onClick={this.loadMore} />
-          )}
-        </>
-      );
-    }
+        {totalImages !== images.length && status === 'resolved' && (
+          <LoadMoreButton onClick={this.loadMore} />
+        )}
+
+        {status === 'pending' && <Puff color="#3f51b5" />}
+      </>
+    );
+
+    // if (status === 'idle') {
+    //   return <p>No match result yet</p>;
+    // }
+
+    // if (status === 'pending') {
+    //   return <Puff color="#3f51b5" />;
+    // }
+
+    // if (status === 'rejected') {
+    //   return (
+    //     <>
+    //       <p>{this.state.error}</p>
+    //       <ToastContainer
+    //         theme="light"
+    //         pauseOnHover={false}
+    //         autoClose={2000}
+    //         draggable={false}
+    //       />
+    //     </>
+    //   );
+    // }
+
+    // if (status === 'resolved') {
+    //   return (
+    //     <>
+    //       <ImageGalleryContainer>
+    //         {images.map(image => (
+    //           <ImageGalleryItem
+    //             key={image.id}
+    //             image={{
+    //               webformatURL: image.webformatURL,
+    //               tags: image.tags,
+    //               largeImageURL: image.largeImageURL,
+    //             }}
+    //           ></ImageGalleryItem>
+    //         ))}
+    //       </ImageGalleryContainer>
+    //       {totalImages !== images.length && (
+    //         <LoadMoreButton onClick={this.loadMore} />
+    //       )}
+    //     </>
+    //   );
+    // }
   }
 }

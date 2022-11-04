@@ -66,18 +66,6 @@ export class ImageGallery extends Component {
       <>
         {status === 'idle' && <p>No match result yet</p>}
 
-        {status === 'rejected' && (
-          <>
-            <p>{this.state.error}</p>
-            <ToastContainer
-              theme="light"
-              pauseOnHover={false}
-              autoClose={2000}
-              draggable={false}
-            />
-          </>
-        )}
-
         <ImageGalleryContainer>
           {images.map(image => (
             <ImageGalleryItem
@@ -90,6 +78,18 @@ export class ImageGallery extends Component {
             ></ImageGalleryItem>
           ))}
         </ImageGalleryContainer>
+
+        {status === 'rejected' && (
+          <>
+            <p>{this.state.error}</p>
+            <ToastContainer
+              theme="light"
+              pauseOnHover={false}
+              autoClose={2000}
+              draggable={false}
+            />
+          </>
+        )}
 
         {totalImages !== images.length && status === 'resolved' && (
           <LoadMoreButton onClick={this.loadMore} />
